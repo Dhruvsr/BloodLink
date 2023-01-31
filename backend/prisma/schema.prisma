@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Roles {
+  Donor
+  Patient
+}
+
+model User {
+  id        String @id @unique @default(cuid())
+  name      String
+  address   String
+  phone     String
+  role      Roles
+  email     String @unique
+  password  String
+  avatarUrl String
+
+  donorId   String?  @unique
+  donor     Donor?
+  patient   Patient?
+  patientId String?  @unique
+}
+
+model Donor {
+  id                         String     @id @unique @default(cuid())
+  dateOfBirth                DateTime
+  currentHealthStatus        String
+  donatedBloodPreviously     Boolean    @default(false)
+  previousBloodDonationDates DateTime[]
+  bloodGroup                 String
+  medicationsCurrentlyTaking String[]
+  travelHistory              String?
+  drugUseHistory             String?
+  height                     String?
+  weight                     String?
+  socialSecurityNumber       String?
+  allergies                  String[]
+  pregnant                   Boolean    @default(false)
+  gender                     String
+  user                       User       @relation(fields: [userId], references: [id])
+  userId                     String     @unique
+}
+
+model Hospital {
+  id   String @id @unique @default(cuid())
+  name String
+
+  patients Patient[]
+}
+
+model Patient {
+  id                 String   @id @unique @default(cuid())
+  affiliatedHospital Hospital @relation(fields: [hospitalId], references: [id])
+  hospitalId         String
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String   @unique
+}
