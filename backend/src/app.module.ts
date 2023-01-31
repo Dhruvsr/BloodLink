@@ -5,10 +5,11 @@ import { PrismaService } from './services/prisma/prisma.service';
 import { AuthController } from './routes/auth/auth.controller';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { UploadController } from './routes/upload/upload.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, UploadController],
   providers: [
     AppService,
     PrismaService,
