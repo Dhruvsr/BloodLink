@@ -42,23 +42,23 @@ export class DonorSignUpDTO extends createZodDto(
       .default(false),
     previousBloodDonationDates: z.array(z.string()).optional().default([]),
     bloodGroup: z.enum(['A+', 'B+', 'AB+', 'O+', 'A-', 'B-', 'AB-', 'O-']),
-    avatarUrl: z.string({
-      required_error: 'Avatar URL is required',
-      invalid_type_error: 'Avatar URL must be a string',
-    }),
+    avatarUrl: z
+      .string({
+        required_error: 'Avatar URL is required',
+        invalid_type_error: 'Avatar URL must be a string',
+      })
+      .optional(),
     medicationsCurrentlyTaking: z.array(z.string()).optional().default([]),
-    travelHistory: z
-      .string({
-        required_error: 'Travel history is required',
-        invalid_type_error: 'Travel history must be a string',
-      })
-      .optional(),
+    travelHistory: z.array(z.string()).optional().default([]),
     drugUseHistory: z
-      .string({
-        required_error: 'Drug use history is required',
-        invalid_type_error: 'Drug use history must be a string',
-      })
-      .optional(),
+      .array(
+        z.string({
+          required_error: 'Drug use history is required',
+          invalid_type_error: 'Drug use history must be a string',
+        }),
+      )
+      .optional()
+      .default([]),
     height: z.string({
       required_error: 'Height is required',
       invalid_type_error: 'Height must be a string',
@@ -67,9 +67,9 @@ export class DonorSignUpDTO extends createZodDto(
       required_error: 'Weight is required',
       invalid_type_error: 'Weight must be a string',
     }),
-    socialSecurityNumber: z.string({
-      required_error: 'Social security number is required',
-      invalid_type_error: 'Social security number must be a string',
+    aadharNumber: z.string({
+      required_error: 'Aadhar number is required',
+      invalid_type_error: 'Aadhar number must be a string',
     }),
     allergies: z.array(z.string()).optional().default([]),
     pregnant: z
