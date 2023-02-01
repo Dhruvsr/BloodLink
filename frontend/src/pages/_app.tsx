@@ -9,6 +9,7 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { outfit } from "@/fonts";
 import { RouterTransition } from "@/components/router";
 import { H } from "@/components/header";
+import { NotificationsProvider } from "@mantine/notifications";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -35,16 +36,12 @@ export default function App(props: AppProps) {
           fontFamily: outfit.style.fontFamily,
         }}
       >
-        <RouterTransition />
-        <H
-          links={[
-            {
-              label: "Register as Donor",
-              link: "/donor/auth/register",
-            },
-          ]}
-        />
-        <Component {...pageProps} />
+        <NotificationsProvider>
+          <RouterTransition />
+          <H
+          />
+          <Component {...pageProps} />
+        </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );
