@@ -1,4 +1,7 @@
 import { MetaTags } from "@/components/meta";
+import { useUser } from "@/context/user";
+import { registerDonor } from "@/services/donor";
+import { RegisterDonorForm } from "@/types/forms";
 import {
   TextInput,
   PasswordInput,
@@ -13,9 +16,13 @@ import {
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function DonorRegister() {
-  const formState = useForm({
+  const formState = useForm<RegisterDonorForm>({
     initialValues: {
       email: "",
       password: "",
@@ -31,12 +38,23 @@ export default function DonorRegister() {
       drugUseHistory: "",
       height: "",
       weight: "",
-      socialSecurityNumber: "",
+      aadharNumber: "",
       allergies: "",
       pregnant: false,
       gender: "",
+      phone: "",
     },
   });
+
+  const [loading, setLoading] = useState(false);
+  const user = useUser((d) => d.user);
+  const setUser = useUser((d) => d.setUser);
+  const { replace, query, isReady } = useRouter();
+
+  useEffect(() => {
+    if (user.id) replace((query.to as string) || "/");
+  }, [user.id, isReady, query.to]);
+
   return (
     <Container size={420} my={40}>
       <MetaTags title="Register" description="Register as a donor" />
@@ -47,20 +65,45 @@ export default function DonorRegister() {
           fontWeight: 900,
         })}
       >
-        Welcome back!
+        Register
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Do not have an account yet?{" "}
-        <Anchor<"a">
-          href="#"
-          size="sm"
-          onClick={(event) => event.preventDefault()}
-        >
-          Create account
+        Already have an account?{" "}
+        <Anchor component={Link} href="/donor/auth/login" size="sm">
+          Login
         </Anchor>
       </Text>
 
-      <form onSubmit={formState.onSubmit(console.log)}>
+      <form
+        onSubmit={formState.onSubmit(async (d) => {
+          setLoading(true);
+          const res = await registerDonor({
+            ...d,
+            medicationsCurrentlyTaking:
+              d.medicationsCurrentlyTaking.length > 0
+                ? d.medicationsCurrentlyTaking.split(",")
+                : [],
+            travelHistory:
+              d.travelHistory.length > 0 ? d.travelHistory.split(",") : [],
+            drugUseHistory:
+              d.drugUseHistory.length > 0 ? d.drugUseHistory.split(",") : [],
+            allergies: d.allergies.length > 0 ? d.allergies.split(",") : [],
+          });
+          if (res.error == true) {
+            setLoading(false);
+            return showNotification({
+              message: res.message,
+              color: "red",
+              title: "Error",
+            });
+          } else {
+            const { data } = res;
+            localStorage.setItem("token", data!.token);
+            setUser(data!.user);
+            setLoading(false);
+          }
+        })}
+      >
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
             label="Email"
@@ -90,6 +133,13 @@ export default function DonorRegister() {
             {...formState.getInputProps("address")}
           />
           <TextInput
+            mt="md"
+            label="Phone Number"
+            placeholder="Your phone number"
+            required
+            {...formState.getInputProps("phone")}
+          />
+          <DatePicker
             mt="md"
             label="Date of Birth"
             placeholder="Your date of birth"
@@ -154,49 +204,45 @@ export default function DonorRegister() {
             mt="md"
             label="Medications Currently Taking"
             placeholder="List of medications you are currently taking (separated by comma)"
-            required
             {...formState.getInputProps("medicationsCurrentlyTaking")}
           />
           <TextInput
             mt="md"
             label="Travel History"
             placeholder="Places you have travelled to (separated by comma)"
-            required
             {...formState.getInputProps("travelHistory")}
           />
           <TextInput
             mt="md"
             label="Drug Use History"
             placeholder="Your drug use history (separated by comma)"
-            required
             {...formState.getInputProps("drugUseHistory")}
           />
           <TextInput
             mt="md"
             label="Height"
-            placeholder="Your height"
+            placeholder="Your height(in feet)"
             required
             {...formState.getInputProps("height")}
           />
           <TextInput
             mt="md"
             label="Weight"
-            placeholder="Your weight"
+            placeholder="Your weight(in kg)"
             required
             {...formState.getInputProps("weight")}
           />
           <TextInput
             mt="md"
-            label="Social Security Number"
-            placeholder="Your social security number"
+            label="Aadhar Number"
+            placeholder="Your aadhar number"
             required
-            {...formState.getInputProps("socialSecurityNumber")}
+            {...formState.getInputProps("aadharNumber")}
           />
           <TextInput
             mt="md"
             label="Allergies"
             placeholder="Your allergies (separated by comma)"
-            required
             {...formState.getInputProps("allergies")}
           />
           <Select
@@ -217,8 +263,8 @@ export default function DonorRegister() {
             />
           )}
 
-          <Button fullWidth mt="xl">
-            Sign in
+          <Button fullWidth mt="xl" loading={loading} type="submit">
+            Register
           </Button>
         </Paper>
       </form>
