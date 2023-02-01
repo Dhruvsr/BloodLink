@@ -31,7 +31,6 @@ export const User = createParamDecorator(
     data: Data,
     ctx: ExecutionContext,
   ): Promise<string | DecodedJWT | { user: U; role: Roles }> => {
-    const p = new PrismaService();
     const request = ctx.switchToHttp().getRequest<Request>();
     const token = request.headers['authorization']?.replace('Bearer ', '');
     if (!token && !data?.optional)
@@ -50,16 +49,20 @@ export const User = createParamDecorator(
         );
       }
     }
-    if (data.serialize) return jwt;
+    if (data.optional) return token;
     if (data.tokenOnly) return token;
     if (data.serialize) {
       const { id, role } = jwt;
+      const p = new PrismaService();
+
       const user = await p.user.findFirst({
         where: { id, role },
         include: {
           donor: true,
+          patient: true,
         },
       });
+      await p.$disconnect();
       if (!user)
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       return { user, role };
