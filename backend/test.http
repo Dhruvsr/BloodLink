@@ -1,0 +1,16 @@
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsZGp5OG90eTAwMDBld2swNTNtZmJhbnIiLCJyb2xlIjoiRG9ub3IiLCJpYXQiOjE2NzUxNTE5ODZ9.pkzmV4xWT7E1hMQM_YCi49vV-mw0hzX77vpxo-aS7fQ
+@url=http://localhost:5000
+
+
+###
+Get {{url}}/hydrate
+Authorization: Bearer {{token}}
+
+
+### 
+Get {{url}}/me/donor
+Authorization: Bearer {{token}}
+
+###
+Get {{url}}/donation-request/cldljupgr0005ewmse5tvqt7q
+Authorization: Bearer {{token}}
