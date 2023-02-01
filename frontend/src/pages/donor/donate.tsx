@@ -36,7 +36,7 @@ export default function Donate() {
   useHydrateUserState();
   const [donorInfo, setDonorInfo] = useState<DonorInfo | undefined>(undefined);
   const { classes } = useStyles();
-  const { replace, asPath } = useRouter();
+  const { replace, asPath, push } = useRouter();
   const user = useUser((d) => d.user);
   useEffect(() => {
     if (!user.id)
@@ -88,6 +88,8 @@ export default function Donate() {
     },
   });
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <Container className={classes.container}>
@@ -101,7 +103,59 @@ export default function Donate() {
           </Center>
         ) : (
           <>
-            <form onSubmit={formState.onSubmit(console.log)}>
+            <form
+              onSubmit={formState.onSubmit((d) => {
+                const { addAlternateDay, alternateDay, availableOn } = d;
+                const token = localStorage.getItem("token");
+                if (!token) {
+                  showNotification({
+                    title: "Error",
+                    message: "Token not found",
+                    color: "red",
+                  });
+                  return void replace({
+                    pathname: "/donor/auth/login",
+                    query: {
+                      to: asPath,
+                    },
+                  });
+                }
+                axios
+                  .post(
+                    `${API_URL}/donation-request/create`,
+                    {
+                      alternateDay,
+                      availableOn,
+                      onAlternateDay: addAlternateDay,
+                    },
+                    {
+                      headers: {
+                        authorization: `Bearer ${token}`,
+                      },
+                    }
+                  )
+                  .then((d) => {
+                    showNotification({
+                      title: "Success",
+                      message: "Donation request created successfully",
+                      color: "green",
+                    });
+                    push({
+                      pathname: `/donor/donations/${d.data.id}`,
+                    });
+                  })
+                  .catch((err) => {
+                    showNotification({
+                      title: "Error",
+                      message:
+                        err?.response?.data?.message || "Something went wrong",
+                      color: "red",
+                    });
+                    return null;
+                  })
+                  .finally(() => setLoading(false));
+              })}
+            >
               <Paper shadow={"md"} withBorder radius={"md"} p="md" mt="xl">
                 <TextInput
                   label="Name"
@@ -213,7 +267,7 @@ export default function Donate() {
                   />
                 ) : null}
                 <Group position="center" mt="xl">
-                  <Button fullWidth type="submit">
+                  <Button fullWidth type="submit" loading={loading}>
                     Submit
                   </Button>
                 </Group>

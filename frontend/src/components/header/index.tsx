@@ -102,7 +102,7 @@ export function H() {
               <>
                 <Menu.Label>Authentication</Menu.Label>
                 <Menu.Item>
-                  <Link href="/donor/auth/register">Register as a Donor</Link>
+                  <Link href="/donor/auth/register">Register as a donor</Link>
                 </Menu.Item>
               </>
             )}
