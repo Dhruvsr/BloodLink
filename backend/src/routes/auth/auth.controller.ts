@@ -29,7 +29,7 @@ export class AuthController {
       phone,
       pregnant,
       previousBloodDonationDates,
-      socialSecurityNumber,
+      aadharNumber,
       travelHistory,
       weight,
     } = body;
@@ -53,7 +53,7 @@ export class AuthController {
         password: hashedPassword,
         phone,
         role: 'Donor',
-        avatarUrl,
+        avatarUrl: avatarUrl || '',
         donor: {
           create: {
             bloodGroup,
@@ -67,7 +67,7 @@ export class AuthController {
             medicationsCurrentlyTaking,
             previousBloodDonationDates,
             pregnant,
-            socialSecurityNumber,
+            aadharNumber,
             travelHistory,
             weight,
           },
