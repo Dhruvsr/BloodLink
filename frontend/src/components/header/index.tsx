@@ -1,3 +1,4 @@
+import { useUser } from "@/context/user";
 import {
   createStyles,
   Header,
@@ -5,6 +6,7 @@ import {
   Group,
   Burger,
   Avatar,
+  Menu,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -33,7 +35,6 @@ const useStyles = createStyles((theme) => ({
   link: {
     display: "block",
     lineHeight: 1,
-    padding: "8px 12px",
     borderRadius: theme.radius.sm,
     textDecoration: "none",
     color:
@@ -42,13 +43,6 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
   },
 
   linkActive: {
@@ -64,25 +58,18 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface HeaderSimpleProps {
-  links: { link: string; label: string }[];
+  links: { link: string; label: string };
 }
+const links: HeaderSimpleProps["links"][] = [
+  { link: "/donor/auth/register", label: "Register As Donor" },
+];
 
-export function H({ links }: HeaderSimpleProps) {
+export function H() {
   const [opened, { toggle }] = useDisclosure(false);
   const { asPath: active } = useRouter();
   const { classes, cx } = useStyles();
-
-  const items = links.map((link) => (
-    <Link
-      key={link.label}
-      href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-    >
-      {link.label}
-    </Link>
-  ));
+  const user = useUser((d) => d.user);
+  const setUser = useUser((d) => d.setUser);
 
   return (
     <Header height={60} mb={20}>
@@ -90,16 +77,49 @@ export function H({ links }: HeaderSimpleProps) {
         <Link href="/">
           <Avatar size={28} />
         </Link>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-        />
+        <Menu shadow={"md"} width={200}>
+          <Menu.Dropdown>
+            {user.id ? (
+              <>
+                <Menu.Item color="green">
+                  <Link href="/donor/donate" className={cx(classes.link)}>
+                    Donate
+                  </Link>
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Label>Danger</Menu.Label>
+                <Menu.Item
+                  color="red"
+                  onClick={() => {
+                    setUser({ avatarUrl: "", id: "", role: "Donor" });
+                    localStorage.removeItem("token");
+                  }}
+                >
+                  Logout
+                </Menu.Item>
+              </>
+            ) : (
+              <>
+                <Menu.Label>Authentication</Menu.Label>
+                <Menu.Item>
+                  <Link href="/donor/auth/register">Register as a Donor</Link>
+                </Menu.Item>
+              </>
+            )}
+          </Menu.Dropdown>
+          <Menu.Target>
+            {user.id ? (
+              <Avatar />
+            ) : (
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                className={classes.burger}
+                size="sm"
+              />
+            )}
+          </Menu.Target>
+        </Menu>
       </Container>
     </Header>
   );
