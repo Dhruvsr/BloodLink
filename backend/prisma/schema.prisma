@@ -29,23 +29,24 @@ model User {
 }
 
 model Donor {
-  id                         String     @id @unique @default(cuid())
+  id                         String                 @id @unique @default(cuid())
   dateOfBirth                DateTime
   currentHealthStatus        String
-  donatedBloodPreviously     Boolean    @default(false)
+  donatedBloodPreviously     Boolean                @default(false)
   previousBloodDonationDates DateTime[]
   bloodGroup                 String
   medicationsCurrentlyTaking String[]
-  travelHistory              String?
-  drugUseHistory             String?
+  travelHistory              String[]
+  drugUseHistory             String[]
   height                     String?
   weight                     String?
-  socialSecurityNumber       String?
+  aadharNumber               String?
   allergies                  String[]
-  pregnant                   Boolean    @default(false)
+  pregnant                   Boolean                @default(false)
   gender                     String
-  user                       User       @relation(fields: [userId], references: [id])
-  userId                     String     @unique
+  user                       User                   @relation(fields: [userId], references: [id])
+  userId                     String                 @unique
+  bloodDonationRequests      BloodDonationRequest[]
 }
 
 model Hospital {
@@ -61,4 +62,13 @@ model Patient {
   hospitalId         String
   user               User     @relation(fields: [userId], references: [id])
   userId             String   @unique
+}
+
+model BloodDonationRequest {
+  id             String    @id @unique @default(cuid())
+  donor          Donor     @relation(fields: [donorId], references: [id])
+  donorId        String
+  availableOn    DateTime
+  onAlternateDay Boolean   @default(false)
+  alternateDay   DateTime?
 }
