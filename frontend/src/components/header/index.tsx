@@ -7,6 +7,8 @@ import {
   Burger,
   Avatar,
   Menu,
+  Text,
+  Button,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -15,7 +17,7 @@ import { useRouter } from "next/router";
 const useStyles = createStyles((theme) => ({
   header: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "between",
     alignItems: "center",
     height: "100%",
   },
@@ -55,6 +57,20 @@ const useStyles = createStyles((theme) => ({
         .color,
     },
   },
+  avatar: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "2px",
+  },
+  name: {
+    ["@media (max-width: 600px)"]: {
+      display: "none",
+    },
+  },
+  center: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 }));
 
 interface HeaderSimpleProps {
@@ -72,11 +88,36 @@ export function H() {
   const setUser = useUser((d) => d.setUser);
 
   return (
-    <Header height={60} mb={20}>
+    <Header height={80} mb={20}>
       <Container className={classes.header}>
-        <Link href="/">
-          <Avatar size={28} />
+        <Link href="/" className={classes.link}>
+          <Group position="center" className={classes.avatar}>
+            <Avatar size={40} src={`/brand/BloodLink.png`} />
+            <Text size="md">BloodLink</Text>
+          </Group>
         </Link>
+        <Group
+          position="center"
+          className={cx(classes.links, classes.name, classes.center)}
+        >
+          {user.id ? (
+            <>
+              {active === "/" ? (
+                <a href="#contact">
+                  <Button variant="outline" className={cx(classes.link)}>
+                    Contact Us
+                  </Button>
+                </a>
+              ) : (
+                <Link href="/#contact" className={cx(classes.link)}>
+                  <Button variant="outline">Contact Us</Button>
+                </Link>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </Group>
         <Menu shadow={"md"} width={200}>
           <Menu.Dropdown>
             {user.id ? (
@@ -115,7 +156,18 @@ export function H() {
           </Menu.Dropdown>
           <Menu.Target>
             {user.id ? (
-              <Avatar />
+              <div
+                style={{
+                  display: "flex",
+                  gap: "2px",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar />
+                <Text ml="md" className={classes.name}>
+                  {user.name}
+                </Text>
+              </div>
             ) : (
               <Burger
                 opened={opened}
