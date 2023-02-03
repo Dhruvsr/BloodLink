@@ -13,19 +13,16 @@ enum Roles {
 }
 
 model User {
-  id        String @id @unique @default(cuid())
+  id        String  @id @unique @default(cuid())
   name      String
   address   String
   phone     String
   role      Roles
-  email     String @unique
+  email     String  @unique
   password  String
-  avatarUrl String
-
-  donorId   String?  @unique
+  avatarUrl String?
   donor     Donor?
   patient   Patient?
-  patientId String?  @unique
 }
 
 model Donor {
@@ -57,11 +54,12 @@ model Hospital {
 }
 
 model Patient {
-  id                 String   @id @unique @default(cuid())
-  affiliatedHospital Hospital @relation(fields: [hospitalId], references: [id])
-  hospitalId         String
-  user               User     @relation(fields: [userId], references: [id])
-  userId             String   @unique
+  id                 String              @id @unique @default(cuid())
+  affiliatedHospital Hospital?           @relation(fields: [hospitalId], references: [id])
+  hospitalId         String?
+  user               User                @relation(fields: [userId], references: [id])
+  userId             String              @unique
+  BloodDonationNeed  BloodDonationNeed[]
 }
 
 model BloodDonationRequest {
@@ -71,4 +69,24 @@ model BloodDonationRequest {
   availableOn    DateTime
   onAlternateDay Boolean   @default(false)
   alternateDay   DateTime?
+}
+
+model BloodDonationNeed {
+  id                  String         @id @unique @default(cuid())
+  patient             Patient        @relation(fields: [patientId], references: [id])
+  patientId           String
+  bloodGroup          String
+  requiredOn          DateTime
+  component           BloodComponent
+  dateOfBirth         DateTime
+  currentHealthStatus String
+  letterFromDoctor    String?
+}
+
+enum BloodComponent {
+  WholeBlood
+  RedBloodCells
+  Platelets
+  Plasma
+  Cryoprecipitate
 }
