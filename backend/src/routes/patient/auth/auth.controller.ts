@@ -44,6 +44,7 @@ export class AuthController {
         avatarUrl: true,
         id: true,
         role: true,
+        name: true,
       },
     });
 
@@ -66,6 +67,7 @@ export class AuthController {
         id: true,
         role: true,
         password: true,
+        name: true,
       },
     });
     if (!patient)

@@ -13,6 +13,7 @@ export class HydrateController {
       id: user.id,
       avatarUrl: user.avatarUrl || '',
       role: user.role,
+      name: user.name,
     };
   }
 }

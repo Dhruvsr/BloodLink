@@ -77,6 +77,7 @@ export class AuthController {
         id: true,
         role: true,
         avatarUrl: true,
+        name: true,
       },
     });
     const token = sign(
@@ -106,6 +107,7 @@ export class AuthController {
         role: true,
         avatarUrl: true,
         password: true,
+        name: true,
       },
     });
     if (!user) throw new HttpException('User not found', 404);
