@@ -82,9 +82,15 @@ export function H() {
             {user.id ? (
               <>
                 <Menu.Item color="green">
-                  <Link href="/donor/donate" className={cx(classes.link)}>
-                    Donate
-                  </Link>
+                  {user.role.toLowerCase() === "donor" ? (
+                    <Link href="/donor/donate" className={cx(classes.link)}>
+                      Donate
+                    </Link>
+                  ) : (
+                    <Link href="/request" className={cx(classes.link)}>
+                      Request Blood Donation
+                    </Link>
+                  )}
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Label>Danger</Menu.Label>
