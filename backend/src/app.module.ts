@@ -9,10 +9,21 @@ import { UploadController } from './routes/upload/upload.controller';
 import { HydrateController } from './routes/hydrate/hydrate.controller';
 import { MeController } from './routes/me/me.controller';
 import { DonationRequestController } from './routes/donation-request/donation-request.controller';
+import { AuthController as PatientAuthController } from './routes/patient/auth/auth.controller';
+import { RequirementController } from './routes/requirement/requirement.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController, AuthController, UploadController, HydrateController, MeController, DonationRequestController],
+  controllers: [
+    AppController,
+    AuthController,
+    UploadController,
+    HydrateController,
+    MeController,
+    DonationRequestController,
+    PatientAuthController,
+    RequirementController,
+  ],
   providers: [
     AppService,
     PrismaService,
