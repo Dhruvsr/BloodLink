@@ -11,6 +11,7 @@ import { MeController } from './routes/me/me.controller';
 import { DonationRequestController } from './routes/donation-request/donation-request.controller';
 import { AuthController as PatientAuthController } from './routes/patient/auth/auth.controller';
 import { RequirementController } from './routes/requirement/requirement.controller';
+import { DashboardController } from './routes/dashboard/dashboard.controller';
 
 @Module({
   imports: [],
@@ -23,6 +24,7 @@ import { RequirementController } from './routes/requirement/requirement.controll
     DonationRequestController,
     PatientAuthController,
     RequirementController,
+    DashboardController,
   ],
   providers: [
     AppService,

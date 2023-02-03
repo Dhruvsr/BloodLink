@@ -14,6 +14,7 @@ BloodLink is a web application that aims to allow for communication and effectiv
 - [Prisma](https://www.prisma.io/) - An object relational mapper (ORM) to write SQL
 - [Nestjs](https://nestjs.com/) - Serverside NodeJS applications
 - [Supabase](https://supabase.com/) - An open source Firebase alternative
+- [PostgreSQL](https://www.postgresql.org/) - Relational Database Management System
 
 ### Build Info
 - First, run `corepack enable` with Powershell as Administrator. This allows you to use `pnpm`

@@ -1,8 +1,8 @@
 const DonorInfo = {
   address: "idk",
   phone: "5555555555",
-  email: "test@gmail.com",
-  name: "Test User",
+  email: "gillgurpal5999@gmail.com",
+  name: "Gurpal Singh",
   aadharNumber: "888888888888",
   allergies: [],
   bloodGroup: "O+",
