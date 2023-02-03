@@ -16,6 +16,10 @@ BloodLink is a web application that aims to allow for communication and effectiv
 - [Supabase](https://supabase.com/) - An open source Firebase alternative
 - [PostgreSQL](https://www.postgresql.org/) - Relational Database Management System
 
+**Hosting:**
+- [Netlify](https://netlify.com) - Hosted frontend here
+- [Render](https://render.com) - Hosted backend here
+
 ### Build Info
 - First, run `corepack enable` with Powershell as Administrator. This allows you to use `pnpm`
 - Then, run `pnpm install` in `/frontend`, followed by `pnpm -g install next`
