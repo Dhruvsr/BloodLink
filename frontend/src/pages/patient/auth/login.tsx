@@ -73,7 +73,7 @@ export default function PatientLogin() {
               const message =
                 err?.response?.data?.errors?.[0]?.message ||
                 err?.response?.data?.message ||
-                "Something went wrong";
+                "Something went wrong. Please contact us for assistance.";
               showNotification({
                 message,
                 color: "red",
@@ -85,13 +85,13 @@ export default function PatientLogin() {
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
             label="Email"
-            placeholder="you@mantine.dev"
+            placeholder="your@email.here"
             required
             {...formState.getInputProps("email")}
           />
           <PasswordInput
             label="Password"
-            placeholder="Your password"
+            placeholder="Your Password"
             required
             mt="md"
             {...formState.getInputProps("password")}

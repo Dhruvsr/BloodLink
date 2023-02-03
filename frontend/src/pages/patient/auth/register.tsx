@@ -81,34 +81,34 @@ function Register() {
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
             label="Email"
-            placeholder="you@mantine.dev"
+            placeholder="your@email.here"
             required
             {...formState.getInputProps("email")}
           />
           <PasswordInput
             label="Password"
-            placeholder="Your password"
+            placeholder="Secure Password Here"
             required
             mt="md"
             {...formState.getInputProps("password")}
           />
           <TextInput
             label="Name"
-            placeholder="Your name"
+            placeholder="Full Name"
             required
             mt="md"
             {...formState.getInputProps("name")}
           />
           <TextInput
             label="Address"
-            placeholder="Your address"
+            placeholder="Your Address"
             required
             mt="md"
             {...formState.getInputProps("address")}
           />
           <TextInput
             label="Phone"
-            placeholder="Your phone"
+            placeholder="Phone Number"
             required
             mt="md"
             {...formState.getInputProps("phone")}
