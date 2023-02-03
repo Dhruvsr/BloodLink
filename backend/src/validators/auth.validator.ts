@@ -97,3 +97,45 @@ export class DonorLoginDTO extends createZodDto(
     }),
   }),
 ) {}
+
+export class PatientSignUpDTO extends createZodDto(
+  z.object({
+    name: z.string({
+      invalid_type_error: 'Name must be a string',
+      required_error: 'Name is Required',
+    }),
+    address: z.string({
+      invalid_type_error: 'Address must be a string',
+      required_error: 'Address is Required',
+    }),
+    phone: z.string({
+      invalid_type_error: 'Phone must be a string',
+      required_error: 'Phone is Required',
+    }),
+    email: z
+      .string({
+        invalid_type_error: 'Email must be a string',
+        required_error: 'Email is Required',
+      })
+      .email(),
+    password: z.password({
+      invalid_type_error: 'Password must be a string',
+      required_error: 'Password is Required',
+    }),
+  }),
+) {}
+
+export class PatientLoginDTO extends createZodDto(
+  z.object({
+    email: z
+      .string({
+        invalid_type_error: 'Email must be a string',
+        required_error: 'Email is Required',
+      })
+      .email(),
+    password: z.string({
+      invalid_type_error: 'Password must be a string',
+      required_error: 'Password is Required',
+    }),
+  }),
+) {}
