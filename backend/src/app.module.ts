@@ -12,6 +12,7 @@ import { DonationRequestController } from './routes/donation-request/donation-re
 import { AuthController as PatientAuthController } from './routes/patient/auth/auth.controller';
 import { RequirementController } from './routes/requirement/requirement.controller';
 import { DashboardController } from './routes/dashboard/dashboard.controller';
+import { PatientController } from './routes/patient/patient.controller';
 
 @Module({
   imports: [],
@@ -25,6 +26,7 @@ import { DashboardController } from './routes/dashboard/dashboard.controller';
     PatientAuthController,
     RequirementController,
     DashboardController,
+    PatientController,
   ],
   providers: [
     AppService,

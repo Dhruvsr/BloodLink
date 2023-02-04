@@ -13,12 +13,12 @@ enum Roles {
 }
 
 model User {
-  id        String  @id @unique @default(cuid())
+  id        String   @id @unique @default(cuid())
   name      String
   address   String
   phone     String
   role      Roles
-  email     String  @unique
+  email     String   @unique
   password  String
   avatarUrl String?
   donor     Donor?
@@ -84,8 +84,8 @@ model BloodDonationNeed {
 }
 
 enum BloodComponent {
-  WholeBlood
-  RedBloodCells
+  WholeBlood      @map("Whole Blood")
+  RedBloodCells   @map("Red Blood Cells")
   Platelets
   Plasma
   Cryoprecipitate
