@@ -6,6 +6,8 @@ import { PrismaService } from './services/prisma/prisma.service';
 import './constants';
 import * as chalk from 'chalk';
 
+
+const port = process.env.PORT || 5000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: false,
@@ -15,7 +17,7 @@ async function bootstrap() {
   app.enableCors();
   app.use(morgan('dev'));
   console.log('Listening on port 5000');
-  await app.listen(5000);
+  await app.listen(port);
   const server = app.getHttpServer();
   const router = server._events.request._router;
 
