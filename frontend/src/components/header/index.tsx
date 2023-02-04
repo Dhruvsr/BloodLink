@@ -148,7 +148,7 @@ export function H() {
                   user.role.toLowerCase() === "donor" ?
                     <Menu.Item color="green" >
                       <Link href="/donor/dashboard" className={cx(classes.link)}>
-                        Profile
+                        Dashboard
                       </Link>
                     </Menu.Item>
                     : null}
