@@ -54,6 +54,7 @@ export default function Contact() {
       </Title>
 
       <SimpleGrid cols={2} mt="xl" breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+        <input type="hidden" name="form-name" value="contact" />
         <TextInput
           label="Name"
           placeholder="Your name"
@@ -92,7 +93,7 @@ export default function Contact() {
 
       <Group position="center" mt="xl">
         <Button type="submit" size="md">
-          Send message
+          Send Message
         </Button>
       </Group>
     </form>
