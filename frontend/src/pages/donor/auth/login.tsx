@@ -34,7 +34,7 @@ export default function DonorLogin() {
   const { isReady, query, replace } = useRouter();
   useHydrateUserState();
   useEffect(() => {
-    if (user.id) replace((query.to as string) || "/");
+    if (user.id) replace((query.to as string) || "/dashboard");
   }, [user.id, query.to, isReady]);
 
   return (

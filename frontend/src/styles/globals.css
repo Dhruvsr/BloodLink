@@ -12,3 +12,7 @@ html,
 body {
   scroll-behavior: smooth;
 }
+
+.pl-2 {
+  margin-left: 0.5rem;
+}

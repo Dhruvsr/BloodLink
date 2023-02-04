@@ -10,6 +10,9 @@ import { outfit } from "@/fonts";
 import { RouterTransition } from "@/components/router";
 import { H } from "@/components/header";
 import { NotificationsProvider } from "@mantine/notifications";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const client = new QueryClient()
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -37,10 +40,13 @@ export default function App(props: AppProps) {
         }}
       >
         <NotificationsProvider>
-          <RouterTransition />
-          <H
-          />
-          <Component {...pageProps} />
+          <QueryClientProvider client={client} >
+            <ReactQueryDevtools />
+            <RouterTransition />
+            <H
+            />
+            <Component {...pageProps} />
+          </QueryClientProvider>
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>

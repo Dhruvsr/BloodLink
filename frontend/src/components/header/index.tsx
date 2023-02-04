@@ -115,7 +115,18 @@ export function H() {
               )}
             </>
           ) : (
-            <></>
+            <Group position="center" >
+              <Link href="/donor/auth/register" className={cx(classes.link)}>
+                <Button variant="outline">
+                  Register As Donor
+                </Button>
+              </Link>
+              <Link href="/patient/auth/register" className={cx(classes.link)}>
+                <Button variant="outline">
+                  Register As Patient
+                </Button>
+              </Link>
+            </Group>
           )}
         </Group>
         <Menu shadow={"md"} width={200}>
@@ -133,6 +144,14 @@ export function H() {
                     </Link>
                   )}
                 </Menu.Item>
+                {
+                  user.role.toLowerCase() === "donor" ?
+                    <Menu.Item color="green" >
+                      <Link href="/donor/dashboard" className={cx(classes.link)}>
+                        Profile
+                      </Link>
+                    </Menu.Item>
+                    : null}
                 <Menu.Divider />
                 <Menu.Label>Danger</Menu.Label>
                 <Menu.Item

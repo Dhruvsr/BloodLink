@@ -52,7 +52,7 @@ export default function DonorRegister() {
   const { replace, query, isReady } = useRouter();
 
   useEffect(() => {
-    if (user.id) replace((query.to as string) || "/");
+    if (user.id) replace((query.to as string) || "/dashboard");
   }, [user.id, isReady, query.to]);
 
   return (
